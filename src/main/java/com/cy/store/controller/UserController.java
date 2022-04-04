@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+import java.nio.channels.UnsupportedAddressTypeException;
+
 @RestController // @Controller + @ResponseBody
 @RequestMapping("/users")
 public class UserController extends BaseController {
@@ -27,8 +30,11 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/login")
-    public JsonResult<User> login(String username, String password) {
+    public JsonResult<User> login(String username, String password, HttpSession session) {
         User data = userService.login(username, password);
+        // 向session对象中完成数据的绑定（session全局的）
+        session.setAttribute("uid", data.getUid());
+        session.setAttribute("username", data.getUsername());
         return new JsonResult<User>(OK, data);
     }
 }
