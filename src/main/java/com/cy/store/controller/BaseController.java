@@ -30,6 +30,9 @@ public class BaseController {
         } else if (e instanceof PasswordNotMatchException) {
             result.setState(4002);
             result.setMessage("用户密码错误");
+        } else if (e instanceof UpdateException) {
+            result.setState(5001);
+            result.setMessage("更新错误");
         }
         return result;
     }

@@ -2,9 +2,11 @@ package com.cy.store.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cy.store.entity.User;
+import com.cy.store.mapper.UserMapper;
 import com.cy.store.service.IUserService;
 import com.cy.store.service.ex.ServiceException;
 import com.cy.store.service.ex.UsernameDuplicateException;
+import com.sun.tools.corba.se.idl.InterfaceGen;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserServiceImplTest {
-
+    @Autowired
+    UserMapper userMapper;
     @Autowired
     private IUserService userService;
 
@@ -46,5 +49,19 @@ class UserServiceImplTest {
             System.out.println(e.getMessage());
         }
     }
+
+    @Test
+    public void changePassword() {
+        User user = new User();
+        user.setUid(10);
+        user.setPassword("234");
+        try {
+            userService.changePassword(user.getUid(), user.getUsername(), user.getPassword(), "123");
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

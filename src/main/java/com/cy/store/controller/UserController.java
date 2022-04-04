@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.nio.channels.UnsupportedAddressTypeException;
 
 @RestController // @Controller + @ResponseBody
@@ -36,5 +37,16 @@ public class UserController extends BaseController {
         session.setAttribute("uid", data.getUid());
         session.setAttribute("username", data.getUsername());
         return new JsonResult<User>(OK, data);
+    }
+
+    @RequestMapping("/change_password")
+    public JsonResult<User> changePassword(String oldPassword, String newPassword, HttpSession session) {
+        // 调用session.getAttribute("")获取uid和username
+        Integer uid = (Integer) session.getAttribute("uid");
+        String username = (String) session.getAttribute("username");
+        // 调用业务对象执行修改密码
+        userService.changePassword(uid, username, oldPassword, newPassword);
+        // 返回成功
+        return new JsonResult<User>(OK);
     }
 }
