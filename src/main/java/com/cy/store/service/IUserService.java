@@ -1,6 +1,7 @@
 package com.cy.store.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cy.store.entity.Address;
 import com.cy.store.entity.User;
 import org.apache.catalina.realm.UserDatabaseRealm;
 import org.apache.ibatis.plugin.Interceptor;
@@ -29,4 +30,5 @@ public interface IUserService extends IService<User> {
      * @param user 用户的新的数据
      */
     void changeInfo(Integer uid, String username, User user);
+
 }

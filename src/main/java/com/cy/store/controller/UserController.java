@@ -22,8 +22,10 @@ public class UserController extends BaseController {
     @Autowired
     private IUserService userService;
 
+
     @RequestMapping("/reg")
     public JsonResult<Void> reg(User user) {
+
         userService.register(user);
         return new JsonResult<Void>(OK);
     }

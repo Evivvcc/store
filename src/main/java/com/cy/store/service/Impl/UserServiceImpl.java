@@ -99,7 +99,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
     }
 
-
     @Override
     public void changePassword(Integer uid, String username, String oldPassword, String newPassword) {
         // 根据参数uid查询用户数据,检查查询结果是否为null
@@ -184,6 +183,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new UpdateException("更新失败");
         }
     }
+
+
 
     /** ---------- util ----------*/
     private String getMd5Password(String password, String salt) {

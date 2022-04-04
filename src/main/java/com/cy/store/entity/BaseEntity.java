@@ -13,8 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class BaseEntity implements Serializable {
 
-    private String createdUser;
-    private Date createdTime;
-    private String modifiedUser;
-    private Date modifiedTime;
+    private String createdUser;//'创建人',
+    private Date createdTime;//'创建时间',
+    private String modifiedUser;// '修改人',
+    private Date modifiedTime;//'修改时间',
 }

@@ -37,3 +37,7 @@ mybatis-plus:
     db-config:
       table-prefix: t_  # 设置实体类所对应的表的前缀
       id-type: auto # 设置全局自增策略
+
+userinfo:
+  address:
+    maxCount: 20

@@ -1,5 +1,6 @@
 package com.cy.store.controller;
 
+import com.cy.store.entity.Address;
 import com.cy.store.service.ex.*;
 import com.cy.store.util.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,9 @@ public class BaseController {
         } else if (e instanceof UpdateException) {
             result.setState(5001);
             result.setMessage("更新错误");
+        } else if (e instanceof AddressCountLimitException) {
+            result.setState(4003);
+            result.setMessage("地址数量达到上限制");
         }
         return result;
     }
