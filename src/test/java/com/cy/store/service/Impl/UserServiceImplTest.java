@@ -53,7 +53,7 @@ class UserServiceImplTest {
     @Test
     public void changePassword() {
         User user = new User();
-        user.setUid(10);
+        user.setUid(7);
         user.setPassword("234");
         try {
             userService.changePassword(user.getUid(), user.getUsername(), user.getPassword(), "123");
@@ -61,6 +61,21 @@ class UserServiceImplTest {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void getByUid() {
+        User user = userService.getByUid(8);
+    }
+
+    @Test
+    public void changeInfo() {
+        User user = new User();
+        user.setUid(9);
+        user.setUsername("小1");
+        user.setPhone("18658707293");
+        user.setEmail("www.123@qq.com");
+        userService.changeInfo(9, "cc", user);
     }
 
 

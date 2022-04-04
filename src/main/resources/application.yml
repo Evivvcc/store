@@ -33,3 +33,7 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql信息
+  global-config:
+    db-config:
+      table-prefix: t_  # 设置实体类所对应的表的前缀
+      id-type: auto # 设置全局自增策略

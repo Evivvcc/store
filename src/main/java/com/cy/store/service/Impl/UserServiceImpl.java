@@ -10,6 +10,7 @@ import com.cy.store.service.ex.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.smartcardio.TerminalFactory;
 import javax.xml.crypto.Data;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.security.spec.InvalidParameterSpecException;
@@ -128,11 +129,63 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 判断以上返回的受影响行数是否不为1
         // 是：抛了UpdateException异常
         String newMd5Password = getMd5Password(newPassword, salt);
-        if (!update(result, new UpdateWrapper<User>().eq("uid",uid).set("password", newMd5Password))) {
+        if (!update(result, new UpdateWrapper<User>().eq("uid",uid).set("password", newMd5Password).set("created_time", new Date()))) {
             throw new UpdateException("更新失败");
         }
     }
 
+    @Override
+    public User getByUid(Integer uid) {
+        // 根据参数uid查询用户数据,判断查询结果是否为null
+        // 是：抛出UserNotFoundException异常
+        User result = getById(uid);
+        if (result == null) {
+            throw new UserNotFoundException("用户名不存在");
+        }
+
+        // 判断查询结果中的isDelete是否为1
+        // 是：抛出UserNotFoundException异常
+
+
+        // 创建新的User对象
+        // 将以上查询结果中的username/phone/email/gender封装到新User对象中
+        User user = new User();
+        user.setUsername(result.getUsername());
+        user.setPhone(result.getPhone());
+        user.setEmail(result.getEmail());
+        user.setGender(result.getGender());
+
+        // 返回新的User对象
+        return user;
+    }
+
+    @Override
+    public void changeInfo(Integer uid, String username, User user) {
+        // 根据参数uid查询用户数据,判断查询结果是否为null
+        // 是：抛出UserNotFoundException异常
+        User result = getById(uid);
+        if (result == null) {
+            throw new UserNotFoundException("用户名不存在");
+        }
+
+        // 判断查询结果中的isDelete是否为1
+        // 是：抛出UserNotFoundException异常
+
+        // 向参数user中补全数据：uid
+        // 向参数user中补全数据：modifiedUser(username)
+        // 向参数user中补全数据：modifiedTime(new Date())
+        // 调用userMapper的updateInfoByUid(User user)方法执行修改，并获取返回值
+        // 判断以上返回的受影响行数是否不为1
+        // 是：抛出UpdateException异常
+        user.setModifiedUser(username);
+        user.setModifiedTime(new Date());
+        user.setUid(result.getUid());
+        if (!updateById(user)) {
+            throw new UpdateException("更新失败");
+        }
+    }
+
+    /** ---------- util ----------*/
     private String getMd5Password(String password, String salt) {
         /*
          * 加密规则：

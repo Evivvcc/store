@@ -9,14 +9,12 @@ import javafx.scene.control.TableView;
 import org.apache.ibatis.executor.ResultExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.nio.channels.UnsupportedAddressTypeException;
+import java.rmi.server.UID;
 
 @RestController // @Controller + @ResponseBody
 @RequestMapping("/users")
@@ -48,5 +46,25 @@ public class UserController extends BaseController {
         userService.changePassword(uid, username, oldPassword, newPassword);
         // 返回成功
         return new JsonResult<User>(OK);
+    }
+
+    @GetMapping("/get_by_uid")
+    public JsonResult<User> getByUid(HttpSession session) {
+        // 从HttpSession对象中获取uid
+        // 调用业务对象执行获取数据
+        // 响应成功和数据
+        Integer uid = (Integer) session.getAttribute("uid");
+        User data = userService.getByUid(uid);
+        return new JsonResult<User>(OK, data);
+    }
+    @RequestMapping("/change_info")
+    public JsonResult<Void> changeInfo(User user, HttpSession session) {
+        // 从HttpSession对象中获取uid和username
+        // 调用业务对象执行修改用户资料
+        // 响应成功
+        Integer uid = (Integer) session.getAttribute("uid");
+        String username = (String) session.getAttribute("username");
+        userService.changeInfo(uid, username, user);
+        return new JsonResult<Void>(OK);
     }
 }
