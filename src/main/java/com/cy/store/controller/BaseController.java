@@ -37,6 +37,15 @@ public class BaseController {
         } else if (e instanceof AddressCountLimitException) {
             result.setState(4003);
             result.setMessage("地址数量达到上限制");
+        } else if (e instanceof ProductNotFoundException) {
+            result.setState(4006);
+            result.setMessage("尝试访问的商品数据不存在");
+        } else if (e instanceof CartNotFoundException) {
+            result.setState(4007);
+            result.setMessage("购物车无此商品");
+        } else if (e instanceof AccessDeniedException) {
+            result.setState(4008);
+            result.setMessage("非法访问");
         }
         return result;
     }
