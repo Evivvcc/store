@@ -263,6 +263,12 @@
 		</footer>
 		<!--页脚结束-->
 		<script type="text/javascript">
+			/**
+			 * 一旦检测到当前的页面被加载就会触发ready方法
+			 * $(document).ready(function(){
+			 *     // 编写业务代码
+			 * });
+			 */
 			$(document).ready(function() {
 				$.ajax({
 					url: "/users/get_by_uid",
@@ -270,16 +276,18 @@
 					dataType: "json",
 					success: function(json) {
 						if (json.state == 200) {
-							console.log("username=" + json.data.username);
-							console.log("phone=" + json.data.phone);
-							console.log("email=" + json.data.email);
-							console.log("gender=" + json.data.gender);
+							// console.log("username=" + json.data.username);
+							// console.log("phone=" + json.data.phone);
+							// console.log("email=" + json.data.email);
+							// console.log("gender=" + json.data.gender);
 
+							// 将查询到的数据重新设置到控件中
 							$("#username").val(json.data.username);
 							$("#phone").val(json.data.phone);
 							$("#email").val(json.data.email);
 
 							let radio = json.data.gender == 0 ? $("#gender-female") : $("#gender-male");
+							// prop()表示给某个元素添加属性及属性的值
 							radio.prop("checked", "checked");
 						} else {
 							alert("获取用户信息失败！" + json.message);
@@ -297,7 +305,6 @@
 					success: function(json) {
 						if (json.state == 200) {
 							alert("修改成功！");
-							location.href = "login.html";
 						} else {
 							alert("修改失败！" + json.message);
 						}

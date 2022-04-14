@@ -30,6 +30,6 @@ public class Address extends BaseEntity implements Serializable {
     private String phone;// '手机',
     private String tel;// '固话',
     private String tag;// '标签',
-    private Integer is_default;// '是否默认：0-不默认，1-默认',
+    private Integer isDefault;// '是否默认：0-不默认，1-默认',
 
 }

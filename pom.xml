@@ -55,9 +55,25 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.2.8</version>
         </dependency>
+<!--        &lt;!&ndash;redis&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--        </dependency>-->
+<!--&lt;!&ndash;        commons pool&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.commons</groupId>-->
+<!--            <artifactId>commons-pool2</artifactId>-->
+<!--        </dependency>-->
+<!--        spring-session-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
 
 
-<!--        配置信息提示-->
+
+        <!--        配置信息提示-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -90,7 +106,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-<!--配置信息提示-->
+            <!--配置信息提示-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

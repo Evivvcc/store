@@ -22,4 +22,27 @@ public interface IAddressService extends IService<Address> {
      */
     List<Address> getByUid(Integer uid);
 
+    /**
+     * 根据收货地址数据的id，查询收货地址详情
+     * @param aid 收货地址id
+     * @param uid 归属的用户id
+     * @return 匹配的收货地址详情
+     */
+    Address getByAid(Integer aid, Integer uid);
+
+    /**
+     * 设置默认收货地址
+     * @param aid 收货地址id
+     * @param uid 归属的用户id
+     * @param username 当前登录的用户名
+     */
+    void setDefault(Integer aid, Integer uid, String username);
+
+    /**
+     * 删除收货地址
+     * @param aid 收货地址id
+     * @param uid 归属的用户id
+     * @param username 当前登录的用户名
+     */
+    void delete(Integer aid, Integer uid, String username);
 }

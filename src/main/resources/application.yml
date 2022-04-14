@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/store
     username: root
     password: evivv
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver  #MySQL8.0后
 
     druid:
       aop-patterns: com.atguigu.admin.*  #监控SpringBean
@@ -29,6 +29,8 @@ spring:
           enabled: true
           config:
             drop-table-allow: false
+
+
 
 mybatis-plus:
   configuration:

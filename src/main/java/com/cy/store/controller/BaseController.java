@@ -46,15 +46,10 @@ public class BaseController {
         } else if (e instanceof AccessDeniedException) {
             result.setState(4008);
             result.setMessage("非法访问");
+        } else if (e instanceof AddressNotFoundException) {
+            result.setState(4004);
         }
         return result;
     }
 
-    protected final Integer getuidFromSession(HttpSession session) {
-        return Integer.valueOf(session.getAttribute("uid").toString());
-    }
-
-    protected final String getUsernameFromSession(HttpSession session) {
-        return session.getAttribute("username").toString();
-    }
 }

@@ -179,7 +179,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setModifiedUser(username);
         user.setModifiedTime(new Date());
         user.setUid(result.getUid());
-        if (!updateById(user)) {
+        if (!update(user, new UpdateWrapper<User>().eq("uid",uid))) {
             throw new UpdateException("更新失败");
         }
     }

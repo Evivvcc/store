@@ -1,9 +1,11 @@
 package com.cy.store.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cy.store.entity.User;
 import com.cy.store.mapper.UserMapper;
 import com.cy.store.service.IUserService;
 import com.cy.store.service.ex.ServiceException;
+import com.sun.xml.internal.bind.v2.runtime.reflect.Accessor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -72,6 +74,24 @@ class UserServiceImplTest {
         user.setPhone("18658707293");
         user.setEmail("www.123@qq.com");
         userService.changeInfo(9, "cc", user);
+    }
+
+    @Test
+    public void update() {
+
+        /**
+         *         updateById(T entity)
+         *         根据实体类信息，通过查询id进行修改
+         */
+//        User user = userService.getOne(new QueryWrapper<User>().eq("uid", 8));
+//        user.setPhone("1231231");
+//        userService.updateById(user);
+
+        /**
+         *  update(T entity, Wrapper<T> updateWrapper)
+         */
+
+
     }
 
 
