@@ -324,6 +324,8 @@
 					}
 				});
 			});
+
+
 			$("#btn-add-to-cart").click(function() {
 				$.ajax({
 					url: "/carts/add_to_cart",
@@ -346,29 +348,7 @@
 					}
 				});
 			});
-			$("#btn-create-to-seckill").click(function() {
-				$.ajax({
-					url: "/orders/create",
-					data: {
-						"aid": 1,
-						"pid": id
-					},
-					type: "POST",
-					dataType: "JSON",
-					success: function(json) {
-						if (json.state == 200) {
-							alert("创建订单成功！");
-							console.log(json.data);
-						} else {
-							alert("创建订单失败！" + json.message);
-						}
-					},
-					error: function(xhr) {
-						alert("您的登录信息已经过期，请重新登录！HTTP响应码：" + xhr.status);
-						location.href = "login.html";
-					}
-				});
-			});
+
 		</script>
 
 	</body>

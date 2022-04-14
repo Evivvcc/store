@@ -6,14 +6,16 @@ import com.cy.store.entity.Cart;
 import com.cy.store.mapper.CartMapper;
 import com.cy.store.service.ICartService;
 import com.cy.store.service.IProductService;
-import com.cy.store.service.ex.AccessDeniedException;
-import com.cy.store.service.ex.CartNotFoundException;
-import com.cy.store.service.ex.UpdateException;
+import com.cy.store.service.ex.*;
+import com.cy.store.util.JsonResult;
 import com.cy.store.vo.CartVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -76,17 +78,81 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         }
         // 判断查询结果中的uid与参数uid是否不一致
         // 是：抛出AccessDeniedException
-        if (result.getUid() != uid) {
+        if (!result.getUid().equals(uid)) {
             throw new AccessDeniedException("非法访问");
         }
 
         // 根据查询结果中的原数量增加1得到新的数量num
-        result.setNum( result.getNum() + 1);
+        result.setNum(result.getNum() + 1);
 
         // 创建当前时间对象，作为modifiedTime
         Date now = new Date();
         updateById(result);
 
         return result.getNum();
+    }
+
+    @Override
+    public Integer reduceNum(Integer cid, Integer uid, String username) throws AccessDeniedException {
+        // 根据参数cid查询购物车数据, 判断查询结果是否为null
+        // 是：抛出CartNotFoundException
+        Cart result = getById(cid);
+        if (result == null) {
+            throw new CartNotFoundException("尝试访问的购物车数据不存在");
+        }
+        // 判断查询结果中的uid与参数uid是否不一致
+        // 是：抛出AccessDeniedException
+        if (!result.getUid().equals(uid)) {
+            throw new AccessDeniedException("非法访问");
+        }
+
+        // 根据查询结果中的原数量增加1得到新的数量num
+        result.setNum(result.getNum() - 1);
+
+        // 创建当前时间对象，作为modifiedTime
+        Date now = new Date();
+        updateById(result);
+
+        if (result.getNum() == 0) {
+            removeById(result);
+        }
+
+        return result.getNum();
+    }
+
+    @Override
+    public void remove(Integer cid, Integer uid, String username) {
+        // 根据参数cid查询购物车数据, 判断查询结果是否为null
+        // 是：抛出CartNotFoundException
+        Cart result = getById(cid);
+        if (result == null) {
+            throw new CartNotFoundException("尝试访问的购物车数据不存在");
+        }
+        // 判断查询结果中的uid与参数uid是否不一致
+        // 是：抛出AccessDeniedException
+        if (!result.getUid().equals(uid)) {
+            throw new AccessDeniedException("非法访问");
+        }
+        if (!removeById(cid)) {
+            throw new DeleteException("删除失败");
+        }
+    }
+
+    @Override
+    public List<CartVO> getVOByCids(Integer uid, Integer[] cids) {
+        if (cids == null) {
+            throw new ProductNotFoundException("订单不存在");
+        }
+        List<CartVO> result = cartMapper.findVOByCids(cids);
+
+        // 检查列表中的元素是否全部为用户uid 的
+        Iterator<CartVO> iterator = result.iterator();
+        while (iterator.hasNext()) {
+            CartVO next = iterator.next();
+            if (!next.getUid().equals(uid)) {
+                result.remove(next);
+            }
+        }
+        return result;
     }
 }

@@ -38,4 +38,14 @@ class CartServiceImplTest {
     public void addNum() {
         cartService.addNum(2, 21, "Evivv");
     }
+
+    @Test
+    public void reduceNum() {
+        cartService.reduceNum(2, 21, "Evivv");
+    }
+
+    @Test
+    public void remove() {
+        cartService.remove(1,1,"e");
+    }
 }

@@ -128,6 +128,7 @@
 				</div>
 			</div>
 			<!--左侧导航结束-->
+			<!--订单表格开始-->
 			<div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -149,7 +150,7 @@
 									<th width="10%">操作</th>
 								</tr>
 							</thead>
-							<tbody class="orders-body">
+							<tbody id="order-list" class="orders-body">
 								<tr>
 									<td><img src="../images/portal/12DELLXPS13-silvery/collect.png" class="img-responsive" /></td>
 									<td>联想(Lenovo)小新Air13 Pro 13.3英寸14.8mm超轻薄笔记本电脑</td>
@@ -193,47 +194,6 @@
 						</table>
 						<div>
 							<span class="pull-right">订单总金额：¥20689</span>
-						</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<p class="panel-title">
-							订单号：1101000301，下单时间：2018-12-2 20:32:17 ， 收货人：八戒
-						</p>
-					</div>
-					<div class="panel-body">
-						<table class="orders-table" width="100%">
-							<thead>
-								<tr>
-									<th width="15%"></th>
-									<th width="30%">商品</th>
-									<th width="8%">单价</th>
-									<th width="8%">数量</th>
-									<th width="9%">小计</th>
-									<th width="10%">售后</th>
-									<th width="10%">状态</th>
-									<th width="10%">操作</th>
-								</tr>
-							</thead>
-							<tbody class="orders-body">
-								<tr>
-									<td><img src="../images/portal/12DELLXPS13-silvery/collect.png" class="img-responsive" /></td>
-									<td>联想(Lenovo)小新Air13 Pro 13.3英寸14.8mm超轻薄笔记本电脑</td>
-									<td>¥<span>5298</span></td>
-									<td>1件</td>
-									<td>¥<span>5298</span></td>
-									<td><a href="#">申请售后</a></td>
-									<td>
-										<div>已发货</div>
-										<div><a href="orderInfo.html">订单详情</a></div>
-									</td>
-									<td><a href="#" class="btn btn-default btn-xs">确认收货</a></td>
-								</tr>
-							</tbody>
-						</table>
-						<div>
-							<span class="pull-right">订单总金额：¥5298</span>
 						</div>
 					</div>
 				</div>
@@ -324,6 +284,59 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+				showOrderList();
+			});
+
+			function showOrderList() {
+				$("#order-list").empty();
+				$.ajax({
+					url: "/orders",
+					type: "GET",
+					dataType: "JSON",
+					success: function(json) {
+						let list = json.data;
+						for (let i = 0; i < list.length; i++) {
+							let tr = '<tr>'
+								+ '<td>'
+								+	'<img src="..#{image}collect.png" class="img-responsive"/></td>'
+								+ '<td>#{title}#{msg}</td>'
+								+ '<td>¥<span id="price-#{cid}">#{realprice}</span></td>'
+								+ '<td>#{num}件</td>'
+								+ '<td>¥<span>#{totalPrice}</span></td>'
+								+ '<td><a href="#">申请售后</a></td>'
+								+ '<td>'
+								+	'<div>已发货</div>'
+								+	'<div><a href="orderInfo.html">订单详情</a></div>'
+								+ '</td>'
+								+ '<td><a href="#" className="btn btn-default btn-xs">确认收货</a></td>'
+							    + '</tr>'
+
+							tr = tr.replace(/#{cid}/g, list[i].cid);
+							tr = tr.replace(/#{title}/g, list[i].title);
+							tr = tr.replace(/#{image}/g, list[i].image);
+							tr = tr.replace(/#{realPrice}/g, list[i].realPrice);
+							tr = tr.replace(/#{num}/g, list[i].num);
+							tr = tr.replace(/#{totalPrice}/g, list[i].realPrice * list[i].num);
+
+							if (list[i].realPrice < list[i].price) {
+								tr = tr.replace(/#{msg}/g, "比加入时降价" + (list[i].price - list[i].realPrice) + "元");
+							} else {
+								tr = tr.replace(/#{msg}/g, "");
+							}
+							$("#order-list").append(tr);
+						}
+					}
+				});
+			}
+
+
+
+
+		</script>
+
 	</body>
 
 </html>

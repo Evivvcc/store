@@ -38,4 +38,26 @@ public class CartController extends BaseController {
         String username = (String) session.getAttribute("username");
         return new JsonResult<Integer>(OK, cartService.addNum(cid, uid, username));
     }
+
+    @RequestMapping("{cid}/num/reduce")
+    public JsonResult<Integer> reduceNum(@PathVariable("cid") Integer cid, HttpSession session) {
+        Integer uid = (Integer) session.getAttribute("uid");
+        String username = (String) session.getAttribute("username");
+        return new JsonResult<Integer>(OK, cartService.reduceNum(cid, uid, username));
+    }
+
+    @RequestMapping("{cid}/remove_to_cart")
+    public JsonResult<Void> removeToCart(@PathVariable("cid") Integer cid, HttpSession session) {
+        Integer uid = (Integer) session.getAttribute("uid");
+        String username = (String) session.getAttribute("username");
+        cartService.remove(cid, uid, username);
+        return new JsonResult<Void>(OK);
+    }
+
+    @GetMapping("list")
+    public JsonResult<List<CartVO>> getVOByCids(Integer[] cids, HttpSession session) {
+        Integer uid = (Integer) session.getAttribute("uid");
+        return new JsonResult<List<CartVO>>(OK, cartService.getVOByCids(uid,cids));
+    }
+
 }

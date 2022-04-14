@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.store.mapper.OrderMapper">
+
+    <!-- 插入订单商品数据：Integer insertOrderItem(OrderItem orderItem) -->
+    <insert id="insertOrderItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_order_item (
+            oid, pid, title, image, price, num, created_user,
+            created_time, modified_user, modified_time
+        ) VALUES (
+                     #{oid}, #{pid}, #{title}, #{image}, #{price}, #{num}, #{createdUser},
+                     #{createdTime}, #{modifiedUser}, #{modifiedTime}
+                 )
+    </insert>
+</mapper>

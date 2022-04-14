@@ -33,5 +33,30 @@ public interface ICartService extends IService<Cart>  {
      */
     Integer addNum(Integer cid, Integer uid, String username);
 
+    /**
+     * 将购物车中某商品的数量减1
+     * @param cid 购物车数量的id
+     * @param uid 当前登录的用户的id
+     * @param username 当前登录的用户名
+     * @return 增加成功后新的数量
+     */
+    Integer reduceNum(Integer cid, Integer uid, String username);
 
+    /**
+     * 将购物车中某商品的删除
+     * @param cid 购物车数量的id
+     * @param uid 当前登录的用户的id
+     * @param username 当前登录的用户名
+     * @return 增加成功后新的数量
+     */
+    void remove(Integer cid, Integer uid, String username);
+
+
+    /**
+     * 根据若干个购物车数据id查询详情的列表
+     * @param uid 当前登录的用户的id
+     * @param cids 若干个购物车数据id
+     * @return 匹配的购物车数据详情的列表
+     */
+    List<CartVO> getVOByCids(Integer uid, Integer[] cids);
 }

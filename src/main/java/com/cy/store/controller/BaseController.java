@@ -48,6 +48,9 @@ public class BaseController {
             result.setMessage("非法访问");
         } else if (e instanceof AddressNotFoundException) {
             result.setState(4004);
+        } else if (e instanceof OrderNotFoundException) {
+            result.setState(40010);
+            result.setMessage("订单不存在");
         }
         return result;
     }
